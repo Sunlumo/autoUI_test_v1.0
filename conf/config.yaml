@@ -1,0 +1,8 @@
+
+# 日志配置
+logging:
+  level: info
+  path: log.txt
+  formatter: %(asctime)s - %(name)s - %(levelname)s - %(message)s
+
+# 截图配置

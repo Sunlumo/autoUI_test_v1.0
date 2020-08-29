@@ -14,7 +14,7 @@ class StepDriver(object):
 
     def step_run(self, method_name, value1=None, value2=None, value3=None, value4=None):
         op = __import__("base.operation_driver", fromlist=[''])
-        wb = getattr(op, "WebTools")(self.driver)
+        wb = getattr(op, "WebTools")(self.driver,5)
         ct = get_class_method.ClassTool()
         method_list = ct.get_class_method(wb)
         if method_name in method_list:
