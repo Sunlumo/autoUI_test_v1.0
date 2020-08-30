@@ -1,0 +1,10 @@
+2020-08-30 18:48:56,053 - conf.com_config - 94 - get_web_page - INFO - 开始打开页面：https://www.baidu.com
+2020-08-30 18:48:56,744 - conf.com_config - 96 - get_web_page - INFO - 打开页面成功!
+2020-08-30 18:48:58,746 - conf.com_config - 158 - input - INFO - 元素开始输入，方法：id，值：kw，内容：喜羊羊
+2020-08-30 18:48:58,746 - conf.com_config - 25 - get_element - INFO - 开始通过方法:id，值:kw获取元素对象
+2020-08-30 18:48:58,763 - conf.com_config - 81 - get_element - INFO - 获取元素对象成功。
+2020-08-30 18:48:58,858 - conf.com_config - 160 - input - INFO - 元素开始输入内容结束
+2020-08-30 18:49:00,859 - conf.com_config - 168 - click - INFO - 元素执行点击操作，方法：id，值：su
+2020-08-30 18:49:00,859 - conf.com_config - 25 - get_element - INFO - 开始通过方法:id，值:su获取元素对象
+2020-08-30 18:49:00,868 - conf.com_config - 81 - get_element - INFO - 获取元素对象成功。
+2020-08-30 18:49:00,922 - conf.com_config - 170 - click - INFO - 执行点击操作结束

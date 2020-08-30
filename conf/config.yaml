@@ -1,8 +1,29 @@
-
-# 日志配置
 logging:
-  level: info
-  path: log.txt
-  formatter: %(asctime)s - %(name)s - %(levelname)s - %(message)s
+  level: "info"
+  formatter: "%(asctime)s - %(name)s - %(lineno)d - %(funcName)s - %(levelname)s - %(message)s"
 
-# 截图配置
+browser_type:
+  type: "Chrome"
+
+test_case_path:
+  path: ""
+
+DB_config:
+  mysql:
+    url: ""
+    port: ""
+    database: ""
+    username: ""
+    password: ""
+
+  redis:
+    url: ""
+    port: ""
+    password: ""
+
+  mongDB:
+    url: ""
+    port: ""
+
+
+

@@ -1,0 +1,7 @@
+2020-08-30 21:02:14,264 - conf.com_config - 21 - case_run - INFO - ==============开始执行第1.0条用例=============
+2020-08-30 21:02:14,264 - conf.com_config - 22 - case_run - INFO - 开始打开浏览器
+2020-08-30 21:02:19,482 - conf.com_config - 20 - step_run - INFO - 生成WebTools类对象
+2020-08-30 21:02:19,482 - conf.com_config - 22 - step_run - INFO - 生成WebTools类对象成功
+2020-08-30 21:02:19,482 - conf.com_config - 26 - step_run - INFO - -------------开始执行步骤1----------------
+2020-08-30 21:02:19,482 - conf.com_config - 37 - case_run - ERROR - 执行第1.0条用例时发生运行时错误！错误详情：'int' object has no attribute 'info'
+2020-08-30 21:02:19,483 - conf.com_config - 38 - case_run - ERROR - ==============执行第1.0条用例失败==============

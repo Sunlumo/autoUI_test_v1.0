@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding" addBOMForNewFiles="with NO BOM" />
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/log/log20200830172925.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/log/log20200830172939.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/log/log20200830180136.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/log/log20200830181704.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/log/log20200830183202.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/log/log20200830183616.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/log/log20200830184850.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/log/log20200830210741.txt" charset="GBK" />
+  </component>
 </project>
