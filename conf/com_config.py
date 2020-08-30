@@ -81,7 +81,8 @@ def get_log_conf():
 
 def get_browser_type():
     conf = get_yaml_data(CONFIG_PATH).get("browser_type")
-    if conf != "":
+    if conf.get("type") != "":
+        print(conf.get("type"))
         return conf
     else:
         return "Chrome"

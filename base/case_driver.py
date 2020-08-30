@@ -23,6 +23,7 @@ class CaseDriver(object):
             gd = get_web_driver.GetWebDriver(browser_type).open_browser()
             sd = step_driver.StepDriver(gd, self.logging)
             for step_data in self.step_data_list:
+                self.logging.info("")
                 method_name = step_data[0]
                 vaule1 = step_data[1]
                 vaule2 = step_data[2]

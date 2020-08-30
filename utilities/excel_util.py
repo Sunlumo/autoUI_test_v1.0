@@ -49,7 +49,7 @@ class OperateExcel(object):
                 # all_data.append(file_path)
             all_data.append(case_new)
             all_file_data.append(all_data)
-            print(all_data)
+            print(all_data[0])
 
         return all_data
 

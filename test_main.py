@@ -15,14 +15,13 @@ class TestCase(object):
     test_case_path = conf.com_config.TEST_CASE_PATH
     step_data_list = excel_util.OperateExcel(conf.com_config.get_test_case_path()).read_excel_data()
 
-    def __init__(self):
-        self.browser_type = conf.com_config.get_browser_type()
 
     @pytest.mark.parametrize("step_data_list", step_data_list)
     def test_case(self, step_data_list):
+        browser_type = conf.com_config.get_browser_type()
         case_id = int(step_data_list[0])
         cd = case_driver.CaseDriver(step_data_list[1])
-        cd.case_run(self.browser_type, case_id)
+        cd.case_run(browser_type, case_id)
 
 
 if __name__ == "__main__":
