@@ -1,9 +1,10 @@
+webdriver:
+  timeout: 5
+  browser_type: "Chrome"
+
 logging:
   level: "info"
   formatter: "%(asctime)s - %(name)s - %(lineno)d - %(funcName)s - %(levelname)s - %(message)s"
-
-browser_type:
-  type: "Chrome"
 
 test_case_path:
   path: ""

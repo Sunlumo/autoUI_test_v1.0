@@ -4,7 +4,7 @@ import logging
 import utilities.time_util
 
 ROOT_PATH = os.getcwd()
-PICTURE_PATH = ROOT_PATH + "\\screenshots\\"
+PICTURE_PATH = ROOT_PATH + "\\test_data\\screenshots\\"
 TEST_CASE_PATH = ROOT_PATH + "\\test_data\\" + "test_baidu.xlsx"
 TIME = utilities.time_util.get_time()
 LOGGING_PATH = ROOT_PATH + "\\log\\log" + TIME + ".txt"
@@ -80,10 +80,9 @@ def get_log_conf():
 
 
 def get_browser_type():
-    conf = get_yaml_data(CONFIG_PATH).get("browser_type")
-    if conf.get("type") != "":
-        print(conf.get("type"))
-        return conf
+    browser_type = get_yaml_data(CONFIG_PATH).get("webdriver").get("browser_type")
+    if browser_type != "":
+        return browser_type
     else:
         return "Chrome"
 
@@ -98,11 +97,12 @@ def get_test_case_path():
     file_list1 = []
     for file in file_list:
         if file.split(".")[0].startswith('test_') and file.split(".")[1] == "xlsx":
-            file_list1.append(path+"\\"+file)
+            file_list1.append(path + "\\" + file)
         else:
             pass
-    # print(file_list1)
     return file_list1
 
 
-get_log_conf()
+def get_timeout():
+    return get_yaml_data(CONFIG_PATH).get("webdriver").get("timeout")
+

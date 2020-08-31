@@ -15,13 +15,13 @@ class CaseDriver(object):
         self.step_data_list = step_data_list
         self.logging = conf.com_config.get_logger()
 
-    def case_run(self, browser_type, case_num):
+    def case_run(self, browser_type, case_id):
+        gd = get_web_driver.GetWebDriver(browser_type).open_browser()
         try:
             num = 1
-            self.logging.info("==============开始执行第{}条用例=============".format(case_num))
-            self.logging.info("开始打开浏览器".format(case_num))
-            gd = get_web_driver.GetWebDriver(browser_type).open_browser()
-            sd = step_driver.StepDriver(gd, self.logging)
+            self.logging.info("==============开始执行第{}条用例=============".format(case_id))
+            self.logging.info("开始打开浏览器".format(case_id))
+            sd = step_driver.StepDriver(gd, self.logging, case_id)
             for step_data in self.step_data_list:
                 self.logging.info("")
                 method_name = step_data[0]
@@ -33,8 +33,9 @@ class CaseDriver(object):
                 num = num + 1
                 time.sleep(2)
             gd.close()
-            self.logging.info("==============执行第{}条用例完成==============".format(case_num))
+            self.logging.info("==============执行第{}条用例完成==============".format(case_id))
         except Exception as e:
-            self.logging.error("执行第{}条用例时发生运行时错误！错误详情：{}".format(case_num, e))
-            self.logging.error("==============执行第{}条用例失败==============".format(case_num))
+            self.logging.error("执行第{}条用例时发生运行时错误！错误详情：{}".format(case_id, e))
+            self.logging.error("==============执行第{}条用例失败==============".format(case_id))
+            gd.close()
             raise Exception

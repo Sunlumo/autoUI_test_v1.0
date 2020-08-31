@@ -9,15 +9,17 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException, ErrorInResponseException, NoSuchFrameException, \
     NoSuchWindowException, InvalidSwitchToTargetException, InvalidElementStateException, WebDriverException, \
-    NoAlertPresentException, StaleElementReferenceException
+    NoAlertPresentException, StaleElementReferenceException, TimeoutException
 
 
 class WebTools(object):
 
-    def __init__(self, driver, logger, timeout):
+    def __init__(self, driver, logger, timeout, case_id, num):
         self.driver = driver
         self.timeout = timeout
         self.logging = logger
+        self.case_id = case_id
+        self.num = num
 
     '''元素定位方法'''
 
@@ -145,7 +147,8 @@ class WebTools(object):
     # 保存图片
     def _get_windows_img(self):
         file_path = conf.com_config.PICTURE_PATH
-        screen_name = file_path + utilities.time_util.get_time() + '.png'
+        screen_name = file_path + str(self.case_id) + "_" + str(
+            self.num) + "_" + utilities.time_util.get_time() + '.png'
         try:
             self.driver.get_screenshot_as_file(screen_name)
         except NameError as e:
@@ -160,6 +163,7 @@ class WebTools(object):
             self.get_element(key, value).send_keys(input_value)
             self.logging.info("元素开始输入内容结束")
         except InvalidElementStateException as e:
+            self._get_windows_img()
             self.logging.error("元素状态异常，不能进行操作！错误详情：{}".format(e))
             raise InvalidElementStateException
 
@@ -170,6 +174,7 @@ class WebTools(object):
             self.get_element(key, value).click()
             self.logging.info("执行点击操作结束")
         except InvalidElementStateException as e:
+            self._get_windows_img()
             self.logging.error("元素状态异常，不能进行操作！错误详情：{}".format(e))
             raise InvalidElementStateException
 
@@ -180,6 +185,7 @@ class WebTools(object):
             self.get_element(key, value).clear()
             self.logging.info("执行清除操作结束")
         except InvalidElementStateException as e:
+            self._get_windows_img()
             self.logging.error("元素状态异常，不能进行操作！错误详情：{}".format(e))
             raise InvalidElementStateException
 
@@ -189,6 +195,7 @@ class WebTools(object):
             self.logging.info("获取元素子元素，方法：{}，值1：{}，值2：{}".format(key, value1, value2))
             return Select(self.get_element(key, value1)).select_by_visible_text(value2)
         except InvalidElementStateException as e:
+            self._get_windows_img()
             self.logging.error("元素状态异常，不能进行操作！错误详情：{}".format(e))
             raise InvalidElementStateException
 
@@ -200,6 +207,7 @@ class WebTools(object):
             self.logging.info("获取输入框值成功")
             return attribute_value
         except InvalidElementStateException as e:
+            self._get_windows_img()
             self.logging.error("元素状态异常，不能进行操作！错误详情：{}".format(e))
             raise InvalidElementStateException
 
@@ -211,6 +219,7 @@ class WebTools(object):
             self.logging.info("获取元素文本值成功")
             return text
         except InvalidElementStateException as e:
+            self._get_windows_img()
             self.logging.error("元素状态异常，不能进行操作！错误详情：{}".format(e))
             raise InvalidElementStateException
 
@@ -223,6 +232,7 @@ class WebTools(object):
             webdriver.ActionChains(self.driver).click(xm).perform()
             self.logging.info("移动鼠标点击结束")
         except WebDriverException as e:
+            self._get_windows_img()
             self.logging.error("移动鼠标点击失败！错误详情：{}".format(e))
             raise WebDriverException
 
@@ -245,11 +255,13 @@ class WebTools(object):
                 self.logging.error("frame中不存在{}方法！".format(key))
                 raise ValueError
         except NoSuchFrameException as e:
+            self._get_windows_img()
             self.logging.error("frame执行{}失败，value={}".format(key, value))
             self.logging.error("错误详情：{}".format(e))
             raise NoSuchFrameException
 
         except InvalidSwitchToTargetException as e:
+            self._get_windows_img()
             self.logging.error("{}切换到frame失败，请检查".format(key))
             self.logging.error("错误详情：{}".format(e))
             raise InvalidSwitchToTargetException
@@ -281,6 +293,7 @@ class WebTools(object):
         if self.get_element(key, value).is_selected():
             self.logging.info("校验按钮是否为选中状态结束")
         else:
+            self._get_windows_img()
             self.logging.info("校验按钮是否为选中状态失败！")
             raise InvalidElementStateException
 
@@ -302,42 +315,48 @@ class WebTools(object):
     '''返回bool值'''
 
     def is_title(self, title):
-        self.logging.info("校验页面title是否为{}".format(title))
-        if WebDriverWait(self.driver, self.timeout).until(EC.title_is(title)):
-            self.logging.info("校验通过！")
-        else:
-            self.logging.info("校验失败！")
-            raise WebDriverException
+        try:
+            self.logging.info("校验页面title是否为:{}".format(title))
+            if WebDriverWait(self.driver, self.timeout).until(EC.title_is(title)):
+                self.logging.info("校验通过！")
+        except TimeoutException as e:
+            self._get_windows_img()
+            self.logging.info("校验失败！错误详情：{}".format(e))
+            raise TimeoutException
 
     '''返回bool值'''
 
     def is_title_contains(self, title):
-        self.logging.info("校验页面title_contains是否为{}".format(title))
+        self.logging.info("校验页面title_contains是否为:{}".format(title))
         if WebDriverWait(self.driver, self.timeout).until(EC.title_contains(title)):
             self.logging.info("校验通过！")
         else:
+            self._get_windows_img()
             self.logging.info("校验失败！")
             raise WebDriverException
 
     '''返回bool值'''
 
     def is_text_in_element(self, key, value, text):
-        self.logging.info("校验元素text值是否为{}".format(text))
-        if WebDriverWait(self.driver, self.timeout).until(
-                EC.text_to_be_present_in_element(self.get_element(key, value), text)):
-            self.logging.info("校验通过！")
-        else:
-            self.logging.info("校验失败！")
+        try:
+            self.logging.info("校验元素text值是否为:{}".format(text))
+            if WebDriverWait(self.driver, self.timeout).until(
+                    EC.text_to_be_present_in_element(self.get_element(key, value), text)):
+                self.logging.info("校验通过！")
+        except StaleElementReferenceException as e:
+            self._get_windows_img()
+            self.logging.info("校验失败！错误详情：{}".format(e))
             raise StaleElementReferenceException
 
     '''返回bool值, value为空字符串，返回Fasle'''
 
     def is_value_in_element(self, key, value, value1):
-        self.logging.info("校验元素value值是否为{}".format(value1))
+        self.logging.info("校验元素value值是否为:{}".format(value1))
         if WebDriverWait(self.driver, self.timeout).until(
                 EC.text_to_be_present_in_element_value(self.get_element(key, value), value1)):
             self.logging.info("校验通过！")
         else:
+            self._get_windows_img()
             self.logging.info("校验失败！")
             raise StaleElementReferenceException
 
@@ -351,5 +370,6 @@ class WebTools(object):
                 EC.alert_is_present()(self.driver).accept()
                 self.logging.info("弹窗已关闭")
         except NoAlertPresentException as e:
+            self._get_windows_img()
             self.logging.info("弹窗不存在，错误详情：{}".format(e))
             raise NoAlertPresentException

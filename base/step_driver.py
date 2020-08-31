@@ -10,15 +10,17 @@ import conf.com_config
 
 class StepDriver(object):
 
-    def __init__(self, driver, logger):
+    def __init__(self, driver, logger, case_id):
         self.driver = driver
         self.logging = logger
+        self.case_id = case_id
 
     def step_run(self, method_name, value1=None, value2=None, value3=None, value4=None, num=None):
         try:
+            timeout = conf.com_config.get_timeout()
             op = __import__("base.operation_driver", fromlist=[''])
             # self.logging.info("生成WebTools类对象")
-            wb = getattr(op, "WebTools")(self.driver, self.logging, 5)
+            wb = getattr(op, "WebTools")(self.driver, self.logging, timeout, self.case_id, num)
             # self.logging.info("生成WebTools类对象成功")
             ct = get_class_method.ClassTool()
             method_list = ct.get_class_method(wb)

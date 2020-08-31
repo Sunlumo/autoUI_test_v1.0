@@ -5,7 +5,6 @@
 
 import pytest
 
-from base import operation_driver
 from base import case_driver
 from utilities import excel_util
 import conf.com_config
@@ -14,7 +13,6 @@ import conf.com_config
 class TestCase(object):
     test_case_path = conf.com_config.TEST_CASE_PATH
     step_data_list = excel_util.OperateExcel(conf.com_config.get_test_case_path()).read_excel_data()
-
 
     @pytest.mark.parametrize("step_data_list", step_data_list)
     def test_case(self, step_data_list):
