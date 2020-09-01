@@ -1,0 +1,32 @@
+2020-09-01 19:23:33,688 - conf.com_config - 22 - case_run - INFO - ==============开始执行第1条用例=============
+2020-09-01 19:23:33,688 - conf.com_config - 23 - case_run - INFO - 开始打开浏览器
+2020-09-01 19:23:33,688 - conf.com_config - 26 - case_run - INFO - 
+2020-09-01 19:23:33,691 - conf.com_config - 28 - step_run - INFO - -------------开始执行步骤1----------------
+2020-09-01 19:23:33,691 - conf.com_config - 97 - get_web_page - INFO - 开始打开页面：https://www.baidu.com
+2020-09-01 19:23:37,468 - conf.com_config - 99 - get_web_page - INFO - 打开页面成功!
+2020-09-01 19:23:37,468 - conf.com_config - 42 - step_run - INFO - -------------执行步骤1完成----------------
+2020-09-01 19:23:37,470 - conf.com_config - 43 - step_run - INFO -                                          
+2020-09-01 19:23:39,470 - conf.com_config - 26 - case_run - INFO - 
+2020-09-01 19:23:39,473 - conf.com_config - 28 - step_run - INFO - -------------开始执行步骤2----------------
+2020-09-01 19:23:39,473 - conf.com_config - 162 - input - INFO - 元素开始输入，方法：id，值：kw，内容：喜羊羊
+2020-09-01 19:23:39,473 - conf.com_config - 28 - get_element - INFO - 开始通过方法:id，值:kw获取元素对象
+2020-09-01 19:23:39,483 - conf.com_config - 84 - get_element - INFO - 获取元素对象成功
+2020-09-01 19:23:39,600 - conf.com_config - 164 - input - INFO - 元素开始输入内容结束
+2020-09-01 19:23:39,600 - conf.com_config - 42 - step_run - INFO - -------------执行步骤2完成----------------
+2020-09-01 19:23:39,600 - conf.com_config - 43 - step_run - INFO -                                          
+2020-09-01 19:23:41,600 - conf.com_config - 26 - case_run - INFO - 
+2020-09-01 19:23:41,603 - conf.com_config - 28 - step_run - INFO - -------------开始执行步骤3----------------
+2020-09-01 19:23:41,603 - conf.com_config - 173 - click - INFO - 元素执行点击操作，方法：id，值：su
+2020-09-01 19:23:41,603 - conf.com_config - 28 - get_element - INFO - 开始通过方法:id，值:su获取元素对象
+2020-09-01 19:23:41,614 - conf.com_config - 84 - get_element - INFO - 获取元素对象成功
+2020-09-01 19:23:41,668 - conf.com_config - 175 - click - INFO - 执行点击操作结束
+2020-09-01 19:23:41,670 - conf.com_config - 42 - step_run - INFO - -------------执行步骤3完成----------------
+2020-09-01 19:23:41,670 - conf.com_config - 43 - step_run - INFO -                                          
+2020-09-01 19:23:43,670 - conf.com_config - 26 - case_run - INFO - 
+2020-09-01 19:23:43,671 - conf.com_config - 28 - step_run - INFO - -------------开始执行步骤4----------------
+2020-09-01 19:23:43,671 - conf.com_config - 319 - is_title - INFO - 校验页面title是否为:喜羊羊
+2020-09-01 19:23:49,048 - conf.com_config - 324 - is_title - INFO - 校验失败！错误详情：Message: 
+
+2020-09-01 19:23:49,048 - conf.com_config - 38 - case_run - ERROR - 执行第1条用例时发生运行时错误！错误详情：Message: None
+
+2020-09-01 19:23:49,048 - conf.com_config - 39 - case_run - ERROR - ==============执行第1条用例失败==============

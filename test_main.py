@@ -21,6 +21,15 @@ class TestCase(object):
         cd = case_driver.CaseDriver(step_data_list[1])
         cd.case_run(browser_type, case_id)
 
+    def test_case1(self):
+        assert (1,2)
+
+    def test_case2(self):
+        assert (1,2)
+
+    def test_case3(self):
+        assert (1,2)
+
 
 if __name__ == "__main__":
-    pytest.main()
+    pytest.main(['-s',__file__,'-n=2'])
