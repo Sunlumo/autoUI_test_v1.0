@@ -2,18 +2,20 @@
 # @Time : 2020/8/13 21:33 
 # @Author : daishuai 
 # @File : test_main.py
-
+import allure
 import pytest
 
 from base import case_driver
-from utilities import excel_util
+from utilities import excel_util,CMD_util
 import conf.com_config
 
 
+@allure.feature('百度搜索')
 class TestCase(object):
     test_case_path = conf.com_config.TEST_CASE_PATH
     step_data_list = excel_util.OperateExcel(conf.com_config.get_test_case_path()).read_excel_data()
 
+    @allure.story('登录/获取报文')
     @pytest.mark.parametrize("step_data_list", step_data_list)
     def test_case(self, step_data_list):
         browser_type = conf.com_config.get_browser_type()
@@ -21,15 +23,9 @@ class TestCase(object):
         cd = case_driver.CaseDriver(step_data_list[1])
         cd.case_run(browser_type, case_id)
 
-    def test_case1(self):
-        assert (1,2)
-
-    def test_case2(self):
-        assert (1,2)
-
-    def test_case3(self):
-        assert (1,2)
-
 
 if __name__ == "__main__":
-    pytest.main(['-s',__file__,'-n=2'])
+    pytest.main(['-s', __file__, '-n=4', "--alluredir=test_result\\{}".format("aaaa")])
+    CMD_util.cmd_runner("cd C:\\Users\\22131\\Desktop\\autoUI_test_v1.0")
+    CMD_util.cmd_runner("allure generate ./test_result/{}/ -o ./report/ --clean".format("aaaa"))
+

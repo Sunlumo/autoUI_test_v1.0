@@ -4,7 +4,7 @@ webdriver:
 
 logging:
   level: "info"
-  formatter: "%(asctime)s - %(name)s - %(lineno)d - %(funcName)s - %(levelname)s - %(message)s"
+  formatter: "%(asctime)s - %(lineno)d - %(funcName)s - %(levelname)s - %(message)s"
 
 test_case_path:
   path: ""

@@ -37,7 +37,7 @@ def get_logger():
         logger.setLevel(level=logging.CRITICAL)
     else:
         logger.setLevel(level=logging.INFO)
-    handler = logging.FileHandler(LOGGING_PATH)
+    handler = logging.FileHandler(LOGGING_PATH, encoding='utf-8')
     handler.setLevel(logging.INFO)
     formatter = logging.Formatter(conf.get("formatter"))
     handler.setFormatter(formatter)
@@ -105,4 +105,3 @@ def get_test_case_path():
 
 def get_timeout():
     return get_yaml_data(CONFIG_PATH).get("webdriver").get("timeout")
-
