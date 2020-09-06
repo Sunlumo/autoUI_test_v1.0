@@ -6,41 +6,41 @@
 from base import step_driver
 from base import get_web_driver
 import time
-import conf.com_config
 import allure
 
 
 @allure.feature('百度搜索')
-class CaseDriver(object):
+class TestCaseDriver(object):
 
-    def __init__(self, step_data_list):
+    def __init__(self, step_data_list, logger):
         self.step_data_list = step_data_list
-        self.logging = conf.com_config.get_logger()
+        self.logging = logger
+        self.case_id = int(step_data_list[0][1])
 
     @allure.story("喜羊羊_百度搜索")
-    def case_run(self, browser_type, case_id):
+    def test_case_run(self, browser_type):
         gd = get_web_driver.GetWebDriver(browser_type).open_browser()
         try:
-            num = 1
-            self.logging.info("==============开始执行第{}条用例=============".format(case_id))
-            self.logging.info("开始打开浏览器".format(case_id))
-            sd = step_driver.StepDriver(gd, self.logging, case_id)
+            step_num = 1
+            self.logging.info("==============开始执行第{}条用例=============".format(self.case_id))
+            self.logging.info("开始打开浏览器".format(self.case_id))
+            sd = step_driver.StepDriver(gd, self.logging, self.case_id)
             for step_data in self.step_data_list:
-                with allure.step("第一步"):
+                with allure.step("第{}步".format(step_num)):
                     self.logging.info("")
-                    method_name = step_data[0]
-                    vaule1 = step_data[1]
-                    vaule2 = step_data[2]
-                    vaule3 = step_data[3]
-                    vaule4 = step_data[4]
-                    sd.step_run(method_name, vaule1, vaule2, vaule3, vaule4, num)
-                    allure.attach('实际结果', '成功')
-                    num = num + 1
+                    method_name = step_data[4]
+                    vaule1 = step_data[5]
+                    vaule2 = step_data[6]
+                    vaule3 = step_data[7]
+                    sd.step_run(method_name, vaule1, vaule2, vaule3, step_num)
+                    allure.attach('{}'.format(step_data[2]), '成功')
+                    step_num = step_num + 1
                     time.sleep(2)
             gd.close()
-            self.logging.info("==============执行第{}条用例完成==============".format(case_id))
+            self.logging.info("==============执行第{}条用例完成==============".format(self.case_id))
         except Exception as e:
-            self.logging.error("执行第{}条用例时发生运行时错误！错误详情：{}".format(case_id, e))
-            self.logging.error("==============执行第{}条用例失败==============".format(case_id))
+            self.logging.error("执行第{}条用例时发生运行时错误！错误详情：{}".format(self.case_id, e))
+            self.logging.error("==============执行第{}条用例失败==============".format(self.case_id))
+            allure.attach('{}'.format(self.step_data_list[2]), '失败')
             gd.close()
             raise Exception

@@ -6,60 +6,6 @@ import xlutils
 import conf.com_config
 
 
-class OperateExcel(object):
-
-    def __init__(self, file_path_list):
-        self.file_path_list = file_path_list
-
-    def read_excel_data(self):
-        case_list = []
-        step_list = []
-        case_step = []
-        case_new = []
-        all_data = []
-        all_file_data = []
-        for file_path in self.file_path_list:
-            excel_file = ExcelBase(file_path)
-            excel = excel_file.get_excel()
-            case_row_num = excel.sheet_by_index(0).nrows
-            step_row_num = excel.sheet_by_index(1).nrows
-            for row in range(1, case_row_num):
-                print(excel.sheet_by_index(0).row_values(row))
-                case_list.append(excel.sheet_by_index(0).row_values(row))
-
-            for row in range(1, step_row_num):
-                print(excel.sheet_by_index(1).row_values(row))
-                step_list.append(excel.sheet_by_index(1).row_values(row))
-
-            for case in case_list:
-                case_id = case[0]
-                for step in step_list:
-                    if step[1] == case_id:
-                        step_data = step[4:]
-                        step_data_new = []
-                        for data in step_data:
-                            if data != '':
-                                step_data_new.append(data)
-                        for i in range(len(step_data_new), 5):
-                            step_data_new.append("")
-                        case_step.append(step_data_new)
-                case_step = tuple(case_step)
-                case_new.append(case_id)
-                case_new.append(case_step)
-                # all_data.append(file_path)
-            all_data.append(case_new)
-            all_file_data.append(all_data)
-            print(all_data[0])
-
-        return all_data
-
-    def write_excel_data(self):
-        return None
-
-
-# OperateExcel(conf.com_config.get_test_case_path()).read_excel_data()
-
-
 class ExcelBase(builtins.object):
 
     def __init__(self, excel_path):
@@ -153,3 +99,47 @@ class ExcelBase(builtins.object):
         # :param cols_no: 列号，下标从1开始
         # :return:成功返回True
         return
+
+
+class OperateExcel(object):
+
+    def __init__(self, file_path_list):
+        self.file_path_list = file_path_list
+
+    def read_excel_data(self):
+        case_list = []
+        step_list = []
+        case_step = []
+        case_new = []
+        all_data = []
+        for file_path in self.file_path_list:
+            excel_file = ExcelBase(file_path)
+            excel = excel_file.get_excel()
+            case_row_num = excel.sheet_by_index(0).nrows
+            step_row_num = excel.sheet_by_index(1).nrows
+            for row in range(1, case_row_num):
+                case_list.append(excel.sheet_by_index(0).row_values(row))
+
+            for row in range(1, step_row_num):
+                step_list.append(excel.sheet_by_index(1).row_values(row))
+
+            for case in case_list:
+                case_id = case[0]
+                for step in step_list:
+                    if step[1] == case_id:
+                        step_data_new = step[:4]
+                        for data in step[4:]:
+                            if data != '':
+                                step_data_new.append(data)
+                        for i in range(len(step_data_new), 8):
+                            step_data_new.append("")
+                        case_step.append(step_data_new)
+                case_step_tuple = tuple(case_step)
+                case_step.clear()
+                case_new.append(case_step_tuple)
+            all_data.append(case_new)
+        return case_new
+
+    def write_excel_data(self):
+
+        return 0

@@ -1,13 +1,16 @@
+import time
+
 import yaml
 import os
 import logging
 import utilities.time_util
 
+TIME = utilities.time_util.GetTime()
 ROOT_PATH = os.getcwd()
-PICTURE_PATH = ROOT_PATH + "\\test_data\\screenshots\\"
-TEST_CASE_PATH = ROOT_PATH + "\\test_data\\" + "test_baidu.xlsx"
-TIME = utilities.time_util.get_time()
-LOGGING_PATH = ROOT_PATH + "\\log\\log" + TIME + ".txt"
+RESULT_PATH = "\\test_result\\" + "{}".format(TIME.get_time())
+PICTURE_PATH = ROOT_PATH + RESULT_PATH + "\\screenshots"
+TEST_CASE_PATH = ROOT_PATH + "\\test_data\\"
+LOGGING_PATH = ROOT_PATH + RESULT_PATH + "\\log"
 CONFIG_PATH = ROOT_PATH + "\\conf\\config.yaml"
 
 """
@@ -23,7 +26,12 @@ CRITICAL	当发生严重错误，导致应用程序不能继续运行时记录�
 
 def get_logger():
     conf = get_log_conf()
-
+    if os.path.exists(LOGGING_PATH):
+        pass
+    else:
+        os.makedirs(LOGGING_PATH)
+    logger_file = LOGGING_PATH + "\\log_" + TIME.get_time() + ".txt"
+    time.sleep(2)
     logger = logging.getLogger(__name__)
     logger.handlers.clear()
     logger.propagate = False
@@ -37,7 +45,7 @@ def get_logger():
         logger.setLevel(level=logging.CRITICAL)
     else:
         logger.setLevel(level=logging.INFO)
-    handler = logging.FileHandler(LOGGING_PATH, encoding='utf-8')
+    handler = logging.FileHandler(logger_file, encoding='utf-8')
     handler.setLevel(logging.INFO)
     formatter = logging.Formatter(conf.get("formatter"))
     handler.setFormatter(formatter)
@@ -92,7 +100,7 @@ def get_test_case_path():
     if conf.get("path") != "":
         path = conf.get("path")
     else:
-        path = ROOT_PATH + "\\test_data"
+        path = TEST_CASE_PATH
     file_list = os.listdir(path)
     file_list1 = []
     for file in file_list:
@@ -105,3 +113,25 @@ def get_test_case_path():
 
 def get_timeout():
     return get_yaml_data(CONFIG_PATH).get("webdriver").get("timeout")
+
+
+def get_pytest_command(result_path):
+    pytest_command_list = []
+    pytest_command = get_yaml_data(CONFIG_PATH).get("webdriver").get("pytest")
+    for command in pytest_command:
+        pytest_command_list.append(command)
+    result_path = result_path.replace("\\", "/")
+    allure_command = "--alluredir=.{}".format(result_path)
+    pytest_command_list.append(allure_command)
+    return pytest_command_list
+
+
+def get_allure_conf():
+    result_path = get_yaml_data(CONFIG_PATH).get("allure").get("result_path")
+    report_path = get_yaml_data(CONFIG_PATH).get("allure").get("report_path")
+    if result_path == "":
+        result_path = RESULT_PATH + "\\result"
+    if report_path == "":
+        report_path = RESULT_PATH + "\\report"
+    allure_conf = [result_path, report_path]
+    return allure_conf

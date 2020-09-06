@@ -3,7 +3,6 @@
 # @Author : daishuai 
 # @File : step_driver.py
 
-from base import operation_driver, get_web_driver
 from common import get_class_method
 import conf.com_config
 
@@ -15,7 +14,7 @@ class StepDriver(object):
         self.logging = logger
         self.case_id = case_id
 
-    def step_run(self, method_name, value1=None, value2=None, value3=None, value4=None, num=None):
+    def step_run(self, method_name, value1=None, value2=None, value3=None, num=None):
         try:
             timeout = conf.com_config.get_timeout()
             op = __import__("base.operation_driver", fromlist=[''])
@@ -25,7 +24,7 @@ class StepDriver(object):
             ct = get_class_method.ClassTool()
             method_list = ct.get_class_method(wb)
             self.logging.debug("加载WebTools类对象方法、属性：{}".format(method_list))
-            self.logging.info("-------------开始执行步骤{}----------------".format(num))
+            self.logging.info("-------------开始执行步骤{}_{}----------------".format(self.case_id,num))
             if method_name in method_list:
                 method = getattr(wb, method_name)
                 keys_num = method.__code__.co_argcount
@@ -37,9 +36,7 @@ class StepDriver(object):
                     method(value1, value2)
                 elif keys_num == 4:
                     method(value1, value2, value3)
-                elif keys_num == 5:
-                    method(value1, value2, value3, value4)
-                self.logging.info("-------------执行步骤{}完成----------------".format(num))
+                self.logging.info("-------------执行步骤{}_{}完成----------------".format(self.case_id,num))
                 self.logging.info("                                         ")
 
             else:

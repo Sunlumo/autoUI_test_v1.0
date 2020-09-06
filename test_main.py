@@ -6,7 +6,7 @@ import allure
 import pytest
 
 from base import case_driver
-from utilities import excel_util,CMD_util
+from utilities import excel_util, CMD_util
 import conf.com_config
 
 
@@ -15,17 +15,20 @@ class TestCase(object):
     test_case_path = conf.com_config.TEST_CASE_PATH
     step_data_list = excel_util.OperateExcel(conf.com_config.get_test_case_path()).read_excel_data()
 
-    @allure.story('登录/获取报文')
+    @allure.description("这是搜索喜羊羊的一段描述")
+    @allure.title("搜索喜羊羊")
+    @allure.story('搜索喜羊羊')
     @pytest.mark.parametrize("step_data_list", step_data_list)
     def test_case(self, step_data_list):
+        allure.dynamic.story()
+        logger = conf.com_config.get_logger()
         browser_type = conf.com_config.get_browser_type()
-        case_id = int(step_data_list[0])
-        cd = case_driver.CaseDriver(step_data_list[1])
-        cd.case_run(browser_type, case_id)
+        cd = case_driver.TestCaseDriver(step_data_list, logger)
+        cd.test_case_run(browser_type)
 
 
 if __name__ == "__main__":
-    pytest.main(['-s', __file__, '-n=4', "--alluredir=test_result\\{}".format("aaaa")])
-    CMD_util.cmd_runner("cd C:\\Users\\22131\\Desktop\\autoUI_test_v1.0")
-    CMD_util.cmd_runner("allure generate ./test_result/{}/ -o ./report/ --clean".format("aaaa"))
-
+    allure_conf = conf.com_config.get_allure_conf()
+    # print(conf.com_config.get_pytest_command(allure_conf[0]))
+    pytest.main(conf.com_config.get_pytest_command(allure_conf[0]))
+    CMD_util.cmd_runner("allure generate ./{}/ -o ./{}/ --clean".format(allure_conf[0], allure_conf[1]))

@@ -1,6 +1,14 @@
 webdriver:
   timeout: 5
   browser_type: "Chrome"
+  pytest:
+    - "-n=4"
+    - "-s"
+
+allure:
+  result_path: ""
+  report_path: ""
+
 
 logging:
   level: "info"
@@ -8,6 +16,8 @@ logging:
 
 test_case_path:
   path: ""
+
+
 
 DB_config:
   mysql:
