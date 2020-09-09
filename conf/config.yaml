@@ -8,6 +8,37 @@ webdriver:
 allure:
   result_path: ""
   report_path: ""
+  environment:
+    Browser: "Chrome"
+    Browser_Version: "63.0"
+    Stand: "Production"
+    ApiUrl: "127.0.0.1/login"
+    python_Version: "3.7"
+  categories:
+    [
+      {
+        "name": "Ignored tests",
+        "matchedStatuses": ["skipped"]
+      },
+      {
+        "name": "Infrastructure problems",
+        "matchedStatuses": ["broken", "failed"],
+        "messageRegex": ".*bye-bye.*"
+      },
+      {
+        "name": "Outdated tests",
+        "matchedStatuses": ["broken"],
+        "traceRegex": ".*FileNotFoundException.*"
+      },
+      {
+        "name": "Product defects",
+        "matchedStatuses": ["failed"]
+      },
+      {
+        "name": "Test defects",
+        "matchedStatuses": ["broken"]
+      }
+    ]
 
 
 logging:

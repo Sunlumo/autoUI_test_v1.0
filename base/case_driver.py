@@ -9,7 +9,6 @@ import time
 import allure
 
 
-@allure.feature('百度搜索')
 class TestCaseDriver(object):
 
     def __init__(self, step_data_list, logger):
@@ -17,7 +16,6 @@ class TestCaseDriver(object):
         self.logging = logger
         self.case_id = int(step_data_list[0][1])
 
-    @allure.story("喜羊羊_百度搜索")
     def test_case_run(self, browser_type):
         gd = get_web_driver.GetWebDriver(browser_type).open_browser()
         try:
