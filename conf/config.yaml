@@ -52,11 +52,12 @@ test_case_path:
 
 DB_config:
   mysql:
-    url: ""
+    host: ""
     port: ""
-    database: ""
-    username: ""
+    db: ""
+    user: ""
     password: ""
+    charset: ""
 
   redis:
     url: ""

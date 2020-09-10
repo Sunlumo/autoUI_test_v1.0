@@ -1,4 +1,6 @@
 import logging
+import time
+
 import conf.com_config
 import utilities.time_util
 
@@ -14,12 +16,13 @@ from selenium.common.exceptions import NoSuchElementException, ErrorInResponseEx
 
 class WebTools(object):
 
-    def __init__(self, driver, logger, timeout, case_id, num):
+    def __init__(self, driver, logger, timeout, case_id, num, path):
         self.driver = driver
         self.timeout = timeout
         self.logging = logger
         self.case_id = case_id
         self.num = num
+        self.path = path
 
     '''元素定位方法'''
 
@@ -146,9 +149,10 @@ class WebTools(object):
 
     # 保存图片
     def _get_windows_img(self):
-        file_path = conf.com_config.PICTURE_PATH
+        file_path = self.path.PICTURE_PATH
+        conf.com_config.creat_path(file_path)
         screen_name = file_path + str(self.case_id) + "_" + str(
-            self.num) + "_" + utilities.time_util.get_time() + '.png'
+            self.num) + "_" + time.strftime("%Y%m%d%H%M%S", time.localtime()) + '.png'
         try:
             self.driver.get_screenshot_as_file(screen_name)
         except NameError as e:

@@ -7,13 +7,14 @@ class GetTime(object):
         self.i = 1
         self.time = None
 
-    def get_time(self):
+    def get_date(self):
         if self.i == 1:
-            self.time = time.strftime("%Y%m%d%H%M", time.localtime())
+            self.time = time.strftime("%Y%m%d", time.localtime())
             self.i = 2
             return self.time
         else:
             return self.time
 
-    def get_time_now(self):
+    @staticmethod
+    def get_time_now():
         return time.strftime("%Y%m%d%H%M", time.localtime())
