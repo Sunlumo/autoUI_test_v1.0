@@ -52,21 +52,21 @@ test_case_path:
 
 DB_config:
   mysql:
-    host: ""
-    port: ""
-    db: ""
-    user: ""
-    password: ""
-    charset: ""
+    host: "192.168.151.193"
+    port: "3307"
+    db: "test"
+    user: "root"
+    password: "c6l7r8ceacvi2010vs"
+    charset: "utf8"
 
   redis:
     url: ""
     port: ""
     password: ""
 
-  mongDB:
+  mongo:
     url: ""
-    port: ""
+    db: ""
 
 
 

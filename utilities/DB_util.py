@@ -1,38 +1,82 @@
+# coding:utf-8
+import pymongo
 import pymysql
 from pymysqlpool import connection
 import conf.com_config
+import pandas
 
 
-# ´ò¿ªÊı¾İ¿âÁ¬½Ó
+# æ‰“å¼€æ•°æ®åº“è¿æ¥
 class MysqlUtil(object):
 
     def __init__(self):
-        self.db = None
-        self.get_cursor()
+        self.mysql_conf_list = conf.com_config.get_mysql_conf()
+        self.db = self.get_cursor()
+        self.pool = self.get_connection_pool()
 
     def get_cursor(self):
-        mysql_conf_list = conf.com_config.get_mysql_conf()
-        self.db = pymysql.connect(host=mysql_conf_list[0],
-                                  port=mysql_conf_list[1],
-                                  user=mysql_conf_list[3],
-                                  password=mysql_conf_list[5],
-                                  db=mysql_conf_list[2],
-                                  charset=mysql_conf_list[6])
+        # mysql_conf_list = conf.com_config.get_mysql_conf()
+        db = pymysql.connect(host=self.mysql_conf_list[0],
+                             port=int(self.mysql_conf_list[1]),
+                             user=self.mysql_conf_list[3],
+                             password=self.mysql_conf_list[4],
+                             db=self.mysql_conf_list[2],
+                             charset=self.mysql_conf_list[5])
+        return db
 
     def mysql_driver(self, sql):
-        # Ê¹ÓÃ cursor() ·½·¨´´½¨Ò»¸öÓÎ±ê¶ÔÏó cursor
+        # ä½¿ç”¨ cursor() æ–¹æ³•åˆ›å»ºä¸€ä¸ªæ¸¸æ ‡å¯¹è±¡ cursor
         cursor = self.db.cursor()
-        # Ê¹ÓÃ execute()  ·½·¨Ö´ĞĞ SQL ²éÑ¯
+        # ä½¿ç”¨ execute()  æ–¹æ³•æ‰§è¡Œ SQL æŸ¥è¯¢
         data = cursor.execute(sql)
         # print("Database version : %s " % data)
-        # ¹Ø±ÕÊı¾İ¿âÁ¬½Ó
+        # å…³é—­æ•°æ®åº“è¿æ¥
         self.db.close()
         return data
 
-    def connection_pool(self):
+    def get_connection_pool(self):
         '''
-        ½¨Á¢Á¬½Ó³Ø
-        :return:  Á¬½Ó³Ø
+        å»ºç«‹è¿æ¥æ± 
+        :return:  è¿æ¥æ± 
         '''
-        pool = connection.MySQLConnectionPool(**self.config_database)
-        pool.connect()
+
+        pool = connection.MySQLConnectionPool(
+            pool_name="test_pool",
+            max_pool_size=30,
+            pool_resize_boundary=48,
+            host=self.mysql_conf_list[0],
+            port=int(self.mysql_conf_list[1]),
+            user=self.mysql_conf_list[3],
+            password=self.mysql_conf_list[4],
+            db=self.mysql_conf_list[2],
+            charset=self.mysql_conf_list[5])
+
+        return pool
+
+    def pool_mysql_driver(self, sql):
+        conn = self.pool.borrow_connection()
+        data = pandas.read_sql(sql, conn)
+        self.pool.return_connection(conn)
+        return data
+
+
+class MongoUtil(object):
+
+    def __init__(self):
+        self.mongo_conf_list = conf.com_config.get_mongo_conf()
+        self.db = self.get_cursor()
+
+    def get_cursor(self):
+        client = pymongo.MongoClient(self.mongo_conf_list[0])
+        db = client[self.mongo_conf_list[1]]
+        return db
+
+    def mongo_driver(self, col, query):
+        mycol = self.db[col]
+        data = mycol.find(query)
+        return data
+
+
+a = MysqlUtil()
+data = a.pool_mysql_driver("select id from map;")
+print(data["id"].values)

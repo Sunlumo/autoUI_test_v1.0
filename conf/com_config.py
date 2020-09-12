@@ -5,7 +5,7 @@ import os
 import logging
 import utilities.time_util
 
-ROOT_PATH = os.getcwd()
+ROOT_PATH = os.path.abspath(".")
 CONFIG_PATH = ROOT_PATH + "\\conf\\config.yaml"
 
 
@@ -153,6 +153,11 @@ def get_allure_conf(df_result_path):
 
 
 def get_mysql_conf():
-    conf = get_yaml_data(CONFIG_PATH).get("DB_config").get("mysql")
+    conf = get_yaml_data("D:\\pyprojects\\autoUI_test_v1.0\\conf\\config.yaml").get("DB_config").get("mysql")
     mysql_conf_list = [v for k, v in conf.items()]
     return mysql_conf_list
+
+def get_mongo_conf():
+    conf = get_yaml_data("D:\\pyprojects\\autoUI_test_v1.0\\conf\\config.yaml").get("DB_config").get("mongo")
+    mongo_conf_list = [v for k, v in conf.items()]
+    return mongo_conf_list
